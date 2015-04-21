@@ -65,14 +65,13 @@ class LionTest(TestCase):
         # лев не должен перейти в другое состояние, т.к. передан входной символ,
         # не содержащийся в таблице переходов
         self.lion.setstate(subjects[1])
-        self.assertIn(self.lion.CurrentSubject,
+        self.assertNotIn(self.lion.CurrentSubject,
                       self.lion.Transitions.get(self.lion.CurrentState).keys(),
                       'Current subject is not contained in the table of transitions')
 
         temp = self.lion.Transitions.get(lionCurrentState).get(self.lion.CurrentSubject)
 
-        self.assertEqual(temp.FollowingAction, self.lion.CurrentAction, 'CurrentAction changed incorrectly')
-        self.assertEqual(temp.FollowingState, self.lion.CurrentState, 'CurrentState changed incorrectly')
+        self.assertTrue(temp is None, 'CurrentAction changed incorrectly')
 
         self.assertEqual(lionCurrentState, self.lion.CurrentState, 'CurrentState changed')
         self.assertEqual(lionCurrentAction, self.lion.CurrentAction, 'CurrentAction changed')
